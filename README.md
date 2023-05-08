@@ -1,8 +1,8 @@
 # rdfdf
 
-rdfdf - Functionality for *rule-based* pandas.DataFrame/rdflib.Graph conversion.
+rdfdf - Functionality for *rule-based* `pandas.DataFrame` - `rdflib.Graph` conversion.
 
-For representation of tabular data in rdf see Allemang, Hendler: Semnantic Web for the Working Ontologist. 2011, 40ff.
+For representation of tabular data in RDF see Allemang, Hendler: Semnantic Web for the Working Ontologist. 2011, 40ff.
 
 > This project is in an early stage of development and should be used with caution
 
@@ -14,13 +14,13 @@ For representation of tabular data in rdf see Allemang, Hendler: Semnantic Web f
 
 For now rdfdf provides a `DFGraphConverter` class for rule-based pandas.DataFrame to rdflib.Graph conversion. 
 
-A `GraphDFConverter` class for rule-based rdflib.Graph to pandas.DataFrame conversion will be implemented shortly.
+A `GraphDFConverter` class for rule-based `rdflib.Graph` to `pandas.DataFrame` conversion will be implemented shortly.
 
 ### DFGraphConverter
 
-Unlike [rdfpandas](https://github.com/cadmiumkitty/rdfpandas/) which requires URIRefs as column headers (and otherwise just creates invalid rdf with e.g. literals as predicates), rdfdf computes URIRefs (or Literals for triple objects) based on rules.
+Unlike [rdfpandas](https://github.com/cadmiumkitty/rdfpandas/) which requires URIRefs as column headers (and otherwise just creates invalid RDF with e.g. literals as predicates), rdfdf computes URIRefs (or Literals for triple objects) based on rules.
 
-DFGraphConverter iterates over a dataframe and constructs rdf triples by
+DFGraphConverter iterates over a dataframe and constructs RDF triples by
 - for every row
   - for every rule in field_rules
     - looking up the field_rules key for the current row and creating a predicate-object pair from the field_rules value
@@ -28,7 +28,7 @@ DFGraphConverter iterates over a dataframe and constructs rdf triples by
 	 
 Since what triples actually are created is dependent on the field_rules, also partial table conversion is possible.
 
-
+`./tests/test_data/test.csv`
 ```
 ```
 
