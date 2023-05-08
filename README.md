@@ -28,7 +28,7 @@ DFGraphConverter iterates over a dataframe and constructs RDF triples by
 	 
 Since what triples actually are created is dependent on the field_rules, also partial table conversion is possible.
 
-Example data (`./tests/test_data/test.csv`:
+Example data (`./tests/test_data/test.csv`):
 ```csv
 "Name";"Address";"Place";"Country";"Age";"Hobby";"Favourite Colour" 
 "John";"Dam 52";"Amsterdam";"The Netherlands";"32";"Fishing";"Blue"
