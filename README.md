@@ -26,7 +26,9 @@ DFGraphConverter iterates over a dataframe and constructs RDF triples by
     - looking up the field_rules key for the current row and creating a predicate-object pair from the field_rules value
      - applying the subject_rule to the subject_column field of the current row and prepending the subject to the predicate-object pair.
 	 
-Since what triples actually are created is dependent on the field_rules, also partial table conversion is possible.
+Since what triples actually are created is dependent on the field_rules, also partial table conversion is easily possible.
+
+#### Example
 
 Example data (`./tests/test_data/test.csv`):
 ```csv
