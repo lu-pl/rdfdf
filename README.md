@@ -29,7 +29,7 @@ DFGraphConverter iterates over a dataframe and constructs RDF triples by
 Since what triples actually are created is dependent on the field_rules, also partial table conversion is possible.
 
 Example data (`./tests/test_data/test.csv`:
-```
+```csv
 "Name";"Address";"Place";"Country";"Age";"Hobby";"Favourite Colour" 
 "John";"Dam 52";"Amsterdam";"The Netherlands";"32";"Fishing";"Blue"
 "Jenny";"Leidseplein 2";"Amsterdam";"The Netherlands";"12";"Dancing";"Mauve"
@@ -37,7 +37,7 @@ Example data (`./tests/test_data/test.csv`:
 "Jake";"12E Street 98";"Amsterdam";"United States of America";"42";"Ballet";"Purple"
 ```
 
-```	
+```python
 # example.py
 
 from rdfdf import DFGraphConverter
@@ -70,7 +70,7 @@ print(graph.serialize(format="ttl"))
 ```	
 
 This generates the following RDF:
-```
+```turtle
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix ns1: <http://example.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
