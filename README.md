@@ -1,6 +1,6 @@
 # rdfdf
 
-rdfdf - Functionality for rule-based pandas.DataFrame/rdflib.Graph conversion.
+rdfdf - Functionality for *rule-based* pandas.DataFrame/rdflib.Graph conversion.
 
 For representation of tabular data in rdf see Allemang, Hendler: Semnantic Web for the Working Ontologist. 2011, 40ff.
 
@@ -18,7 +18,23 @@ A `GraphDFConverter` class for rule-based rdflib.Graph to pandas.DataFrame conve
 
 ### DFGraphConverter
 
-Unlike [rdfpandas](https://github.com/cadmiumkitty/rdfpandas/) which requires URIRefs as column headers (and otherwise creates invalid rdf with e.g. literals as predicates etc.), rdfdf computes URIRefs (or Literals for triple objects) based on rules.
+Unlike [rdfpandas](https://github.com/cadmiumkitty/rdfpandas/) which requires URIRefs as column headers (and otherwise just creates invalid rdf with e.g. literals as predicates), rdfdf computes URIRefs (or Literals for triple objects) based on rules.
+
+DFGraphConverter iterates over a dataframe and constructs rdf triples by
+- for every row
+  - for every rule in field_rules
+    - looking up the field_rules key for the current row and creating a predicate-object pair from the field_rules value
+     - applying the subject_rule to the subject_column field of the current row and adding the subject to the predicate-object pair.
+	 
+Since what triples actually are created is dependent on the field_rules, also partial table conversion is possible.
+
+
+```
+```
+
+```	
+from rdfdf import DFGraphConverter
+```	
 
 ### GraphDFConverter
 todo
