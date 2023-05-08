@@ -110,25 +110,3 @@ class GraphDFConverter:
     """Rule-based rdflib.Graph to pandas.DataFrame converter.
     """
     ...
-    
-
-    
-test_ns = Namespace("http://sometest.org/")
-
-test_field_rules = {
-    "Hobby": (test_ns.hasHobby, lambda x: Literal(f"***{x}***")),
-    "Address": (test_ns.hasAddress, Literal)
-}
-
-
-df = pd.read_csv("/home/upgrd/projects/python-projects/rdfdf/tests/test.csv~1", sep=";")
-
-test_dfgraph = DFGraphConverter(
-    dataframe=df,
-    subject_column="Name",
-    subject_rule=test_ns,
-    field_rules=test_field_rules,
-)
-
-graph = test_dfgraph.to_graph()
-print(graph.serialize(format="ttl"))
