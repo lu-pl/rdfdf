@@ -28,7 +28,9 @@ class DFGraphConverter:
                  *,
                  subject_column: str,
                  subject_rule: Callable[[str], URIRef] | Namespace,
-                 field_rules: Mapping[str, tuple[URIRef, Callable[[str], _TripleObject]]],
+                 
+                 # Callable gets passed the current column field value and is responsable for returning a Graph which then gets merged
+                 field_rules: Mapping[str, Callable[[str], Graph]],
                  graph: Graph = None):
         
         self._df = dataframe
@@ -51,47 +53,43 @@ class DFGraphConverter:
             _sub_uri = self._subject_rule[row[self._subject_column]]
 
         return _sub_uri
-    
 
-    def _apply_field_rules(self, row: pd.Series) -> Generator[tuple[URIRef, _TripleObject], None, None]:
-        """Applies field_rules to a pd.Series row;
-        thus constructs a generator of predicate-object tuples.
-        """
-        
-        _field_rules = (
-            (val[0], val[1](row[key]))
-            for key, val in self._field_rules.items()
-        )
-
-        return _field_rules
-
-
-    def _generate_triples(self) -> Generator[_TripleType, None, None]:
-        """Generates triples after applying subject_rule and field_rules;
-        constructs a generator of _TripleType ready for rdflib.Graph conversion.
+    def _generate_graphs(self) -> Generator[Graph, None, None]:
+        """Do the looping and return a Generator of graph objects for merging.
         """
 
-        _triples = (
-            (self._apply_subject_rule(row), *field)
-            for _, row in self._df.iterrows()
-            for field in self._apply_field_rules(row)
-            )
-        
-        ## loop version
-        # for _, row in self._df.iterrows():
-        #     for field in self._apply_field_rules(row):
-        #         print((self._apply_subject_rule(row), *field))
+        for _, row in self._df.iterrows():
+            _subject = self._apply_subject_rule(row)
 
-        return _triples
+            for field, rule in self._field_rules.items():
+                rule = anaphoric(subject=_subject)(rule)
+                row_graph = rule(row[field])
+                
+                yield row_graph
 
+
+    def _merge_to_graph_component(self,
+                                  graphs: Generator[Graph, None, None]) -> Graph:
+        """Loops over a graphs generator and merge every graph to the self._graph component. Returns the modified self._graph component.
+        """
+
+        ## warning: this is not BNode-safe (yet)!!!
+        for graph in graphs:
+            self._graph += graph
+
+        return self._graph
 
     def to_graph(self) -> Graph:
         """rdflib.Graph.adds triples from _generate_triples and returns the graph component.
         """
-        
-        for triple in self._generate_triples():
-            self._graph.add(triple)
 
+        # generate subgraphs
+        _graphs_generator = self._generate_graphs()
+        print(_graphs_generator)
+
+        # merge subgraphs to graph component
+        self._merge_to_graph_component(self._graph)
+        
         return self._graph
             
 
