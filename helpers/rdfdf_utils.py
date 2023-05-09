@@ -22,20 +22,12 @@ def anaphoric(**anaphors):
 
             _f = types.FunctionType(
                 code=f.__code__,
-                # merge anaphors and all global names
-                globals={**anaphors, **_globals}
+                # merge anaphors and f's global name
+                globals={**anaphors, **f.__globals__}
             )
 
             return _f(*args, **kwargs)
         return _wrapper
     return _decor
 
-
-from rdflib import Graph
-
-@anaphoric(x=1, y=2, z=3)
-def foo():
-    return x, y, z, Graph
-
-foo()
 
