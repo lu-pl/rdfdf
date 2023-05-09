@@ -1,0 +1,41 @@
+import inspect
+import functools
+import types
+
+def anaphoric(**anaphors):
+    """Decorator for making bindings defined in **anaphors available in a decorated function.
+    
+    Example:
+    
+    @anaphoric(x=1, y=2, z=3)
+    def foo():
+        return x, y, z
+
+    foo() # -> (1, 2, 3)
+
+    For anaphoric references see https://en.wikipedia.org/wiki/Anaphoric_macro.
+    """
+    def _decor(f):
+
+        @functools.wraps(f)
+        def _wrapper(*args, **kwargs):
+
+            _f = types.FunctionType(
+                code=f.__code__,
+                # merge anaphors and all global names
+                globals={**anaphors, **_globals}
+            )
+
+            return _f(*args, **kwargs)
+        return _wrapper
+    return _decor
+
+
+from rdflib import Graph
+
+@anaphoric(x=1, y=2, z=3)
+def foo():
+    return x, y, z, Graph
+
+foo()
+
