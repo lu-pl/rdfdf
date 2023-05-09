@@ -1,8 +1,10 @@
-from collections.abc import Callable, Mapping
+from collections.abc import Callable, Mapping, Iterable
 from typing import Generator
 
 import pandas as pd
 from rdflib import Graph, Literal, URIRef, Namespace
+
+from helpers.rdfdf_utils import anaphoric
 
 _TripleObject = URIRef | Literal
 _FieldRules = Mapping[str, tuple[URIRef, Callable[[str], _TripleObject]]]
@@ -55,7 +57,8 @@ class DFGraphConverter:
         return _sub_uri
 
     def _generate_graphs(self) -> Generator[Graph, None, None]:
-        """Do the looping and return a Generator of graph objects for merging.
+        """Loops over the table rows of the provided DataFrame;
+        generates and returns a Generator of graph objects for merging.
         """
 
         for _, row in self._df.iterrows():
@@ -69,8 +72,9 @@ class DFGraphConverter:
 
 
     def _merge_to_graph_component(self,
-                                  graphs: Generator[Graph, None, None]) -> Graph:
-        """Loops over a graphs generator and merge every graph to the self._graph component. Returns the modified self._graph component.
+                                  graphs: Iterable[Graph]) -> Graph:
+        """Loops over a graphs generator and merges every graph to the self._graph component.
+        Returns the modified self._graph component.
         """
 
         ## warning: this is not BNode-safe (yet)!!!
@@ -79,16 +83,20 @@ class DFGraphConverter:
 
         return self._graph
 
+    
+    @property
+    def graph(self):
+        return self._graph
+
     def to_graph(self) -> Graph:
         """rdflib.Graph.adds triples from _generate_triples and returns the graph component.
         """
 
         # generate subgraphs
         _graphs_generator = self._generate_graphs()
-        print(_graphs_generator)
 
         # merge subgraphs to graph component
-        self._merge_to_graph_component(self._graph)
+        self._merge_to_graph_component(_graphs_generator)
         
         return self._graph
             
