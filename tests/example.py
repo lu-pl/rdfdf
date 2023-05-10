@@ -3,23 +3,23 @@ from rdfdf import DFGraphConverter
 from rdflib import Namespace, Literal, Graph, URIRef
 from rdflib.namespace import FOAF, RDF
 
-example = Namespace("http://example.org/")
+example_ns = Namespace("http://example.org/")
 
-def name_rule(obj_value):
+def name_rule():
+    
     graph = Graph()
     
-    graph.add(
-        (subject, FOAF.name, Literal(obj_value))
-    )
+    # graph.add((__subject__, RDF.type, FOAF.Person)) \
+    #      .add((__subject__, FOAF.name, Literal(__object__)))
     
-    graph.add(
-        (subject, RDF.type, FOAF.Person)
-    )
-
+    ## without subject_rule parameter; __subject__ must be handled manually
+    graph.add((example_ns[__subject__], RDF.type, FOAF.Person)) \
+         .add((example_ns[__subject__], FOAF.name, Literal(__object__)))
+    
     return graph
 
 
-test_field_rules = {
+test_column_rules = {
     "Name": name_rule,
 }
 
@@ -28,8 +28,8 @@ df = pd.read_csv("./test_data/test.csv", sep=";")
 dfgraph = DFGraphConverter(
     dataframe=df,
     subject_column="Name",
-    subject_rule=example,
-    field_rules=test_field_rules,
+    # subject_rule=example_ns,
+    column_rules=test_column_rules,
 )
 
 graph = dfgraph.to_graph()
