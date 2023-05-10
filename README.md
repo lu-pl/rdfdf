@@ -46,15 +46,139 @@ if supplied, `__subject__` in the `column_rules` will be what `subject_rule` com
 
 #### Examples:
 
+A simple example with `subject_rule` supplied:
+
+Example data (`./tests/test_data/test.csv`):
+```csv
+"Name";"Address";"Place";"Country";"Age";"Hobby";"Favourite Colour" 
+"John";"Dam 52";"Amsterdam";"The Netherlands";"32";"Fishing";"Blue"
+"Jenny";"Leidseplein 2";"Amsterdam";"The Netherlands";"12";"Dancing";"Mauve"
+"Jill";"52W Street 5";"Amsterdam";"United States of America";"28";"Carpentry";"Cyan"
+"Jake";"12E Street 98";"Amsterdam";"United States of America";"42";"Ballet";"Purple"
+```
+
+```python
+# example_1.py
+
+import pandas as pd
+from rdfdf import DFGraphConverter
+from rdflib import Namespace, Literal, Graph, URIRef
+from rdflib.namespace import FOAF, RDF
+
+example_ns = Namespace("http://example.org/")
+
+def name_rule():
+    
+    graph = Graph()
+    
+    graph.add((__subject__, RDF.type, FOAF.Person)) \
+         .add((__subject__, FOAF.name, Literal(__object__)))
+    
+    return graph
+
+def age_rule():
+    
+    graph = Graph()
+
+    graph.add((__subject__, example_ns.age, Literal(__object__)))
+
+    return graph
+    
+
+test_column_rules = {
+    "Name": name_rule,
+    "Age": age_rule
+}
+
+df = pd.read_csv("../test_data/test.csv", sep=";")
+
+dfgraph = DFGraphConverter(
+    dataframe=df,
+    subject_column="Name",
+    subject_rule=example_ns,
+    column_rules=test_column_rules,
+)
+
+graph = dfgraph.to_graph()
+print(graph.serialize(format="ttl"))
+```
+
+And the same example without `subject_rule` supplied, in which case `__subject__`s must be handled manually.
+
+```python
+# example_2.py
+
+import pandas as pd
+from rdfdf import DFGraphConverter
+from rdflib import Namespace, Literal, Graph, URIRef
+from rdflib.namespace import FOAF, RDF
+
+example_ns = Namespace("http://example.org/")
+
+def name_rule():
+    
+    graph = Graph()
+    
+    ## without subject_rule parameter; __subject__ must be handled manually
+    graph.add((example_ns[__subject__], RDF.type, FOAF.Person)) \
+         .add((example_ns[__subject__], FOAF.name, Literal(__object__)))
+    
+    return graph
+
+def age_rule():
+    
+    graph = Graph()
+
+    ## without subject_rule parameter; __subject__ must be handled manually
+    graph.add((example_ns[__subject__], example_ns.age , Literal(__object__)))
+
+    return graph
+    
+
+test_column_rules = {
+    "Name": name_rule,
+    "Age": age_rule
+}
 
 
+df = pd.read_csv("../test_data/test.csv", sep=";")
 
+dfgraph = DFGraphConverter(
+    dataframe=df,
+    subject_column="Name",
+    # subject_rule=example_ns,
+    column_rules=test_column_rules,
+)
 
+graph = dfgraph.to_graph()
+print(graph.serialize(format="ttl"))
+```
 
+Output for both example: 
 
-	
-	
+```ttl
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ns1: <http://example.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
+ns1:Jake a foaf:Person ;
+    ns1:age 42 ;
+    foaf:name "Jake" .
+
+ns1:Jenny a foaf:Person ;
+    ns1:age 12 ;
+    foaf:name "Jenny" .
+
+ns1:Jill a foaf:Person ;
+    ns1:age 28 ;
+    foaf:name "Jill" .
+
+ns1:John a foaf:Person ;
+    ns1:age 32 ;
+    foaf:name "John" .
+```
+
+[todo more examples e.g. with [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/)]
 
 ### GraphDFConverter
 [todo]
