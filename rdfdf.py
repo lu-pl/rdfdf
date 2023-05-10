@@ -15,13 +15,9 @@ class DFGraphConverter:
     """Rule-based pandas.DataFrame to rdflib.Graph converter.
     
     Iterates over a dataframe and constructs rdf triples by
+    ...
     
-    for every row
-      for every rule in field_rules
-        - looking up the field_rules key for the current row and creating a predicate-object pair from the field_rules value
-        - applying the subject_rule to the subject_column field of the current row and adding the subject to the predicate-object pair.
-
-    For basic usage example see <repo>.
+    For basic usage example see https://gitlab.com/lupl/rdfdf.
     For representation of tabular data in rdf see Allemang, Hendler: Semnantic Web for the Working Ontologist. 2011, 40ff.
     """
     
@@ -29,16 +25,14 @@ class DFGraphConverter:
                  dataframe: pd.DataFrame,
                  *,
                  subject_column: str,
-                 subject_rule: Callable[[str], URIRef] | Namespace,
-                 
-                 # Callable gets passed the current column field value and is responsable for returning a Graph which then gets merged
-                 field_rules: Mapping[str, Callable[[str], Graph]],
+                 subject_rule: Callable[[str], URIRef] | Namespace = None,
+                 column_rules: Mapping[str, Callable[[], Graph]],
                  graph: Graph = None):
         
         self._df = dataframe
         self._subject_column = subject_column
         self._subject_rule = subject_rule
-        self._field_rules = field_rules
+        self._column_rules = column_rules
         self._graph = graph or Graph()
 
 
@@ -62,11 +56,18 @@ class DFGraphConverter:
         """
 
         for _, row in self._df.iterrows():
-            _subject = self._apply_subject_rule(row)
+            
+            _subject = (
+                self._apply_subject_rule(row)
+                if self._subject_rule
+                else row[self._subject_column]
+            )
 
-            for field, rule in self._field_rules.items():
-                rule = anaphoric(subject=_subject)(rule)
-                row_graph = rule(row[field])
+            for field, rule in self._column_rules.items():
+                _object = row[field]
+                rule = anaphoric(__subject__=_subject, __object__=_object)(rule)
+                
+                row_graph = rule()
                 
                 yield row_graph
 
@@ -78,6 +79,7 @@ class DFGraphConverter:
         """
 
         ## warning: this is not BNode-safe (yet)!!!
+        ## how to do BNode-safe graph merging?
         for graph in graphs:
             self._graph += graph
 
