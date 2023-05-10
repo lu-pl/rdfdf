@@ -154,7 +154,7 @@ graph = dfgraph.to_graph()
 print(graph.serialize(format="ttl"))
 ```
 
-Output for both example: 
+Output for both examples:
 
 ```ttl
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -178,7 +178,7 @@ ns1:John a foaf:Person ;
     foaf:name "John" .
 ```
 
-[todo more examples e.g. with [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/)]
+[todo: more complex examples e.g. with [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/)]
 
 ### GraphDFConverter
 [todo]
