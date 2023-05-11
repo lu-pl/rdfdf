@@ -145,7 +145,7 @@ graph = dfgraph.to_graph()
 print(graph.serialize(format="ttl"))
 ```
 
-Note that this is rather verbose and could probably be expressed more concisely with Python ontology abstractions like [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/).
+Note that the rule is rather verbose and could probably be expressed more concisely with Python ontology abstractions like [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/).
 
 
 ### GraphDFConverter
