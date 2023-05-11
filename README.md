@@ -147,6 +147,7 @@ print(graph.serialize(format="ttl"))
 
 Note that the rule is rather verbose and could probably be expressed more concisely with Python ontology abstractions like [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/).
 
+[todo: express above rule more concisely]
 
 ### GraphDFConverter
 [todo]
