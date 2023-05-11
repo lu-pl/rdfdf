@@ -44,90 +44,109 @@ if supplied, `__subject__` in the `column_rules` will be what `subject_rule` com
 
 - **graph**: Optional; allows to set the internal rdflib.Graph component.
 
-#### Examples:
+#### Example:
 
-A simple example with `subject_rule` supplied:
+For basic examples see `example_1.py` and `example_2.py` in `./tests/examples/`.
 
-Example data (`./tests/test_data/test.csv`):
+A slightly more involved example:
+
+Example data:
+
 ```csv
-"Name";"Address";"Place";"Country";"Age";"Hobby";"Favourite Colour" 
-"John";"Dam 52";"Amsterdam";"The Netherlands";"32";"Fishing";"Blue"
-"Jenny";"Leidseplein 2";"Amsterdam";"The Netherlands";"12";"Dancing";"Mauve"
-"Jill";"52W Street 5";"Amsterdam";"United States of America";"28";"Carpentry";"Cyan"
-"Jake";"12E Street 98";"Amsterdam";"United States of America";"42";"Ballet";"Purple"
+"id";"full_title"
+"rem";"Reference corpus Middle High German"
+```
+
+Desired output:
+
+```rdf
+<https://rem.clscor.io/entity/corpus> crm:P1_is_identified_by <https://rem.clscor.io/entity/corpus/title/full> . 
+
+<https://rem.clscor.io/entity/corpus/title/full> a crm:E41_Appellation ; 
+    crm:P1i_identifies <https://rem.clscor.io/entity/corpus> ; 
+    crm:P2_has_type <https://core.clscor.io/entity/type/title/full> ; 
+    crm:190_has_symbolic_content "Reference corpus Middle High German" .
 ```
 
 ```python
-# ./tests/examples/example_1.py
+# ./tests/examples/example_3.py
 
 import pandas as pd
+
+from rdflib import URIRef, Graph, Namespace, Literal
+from rdflib.namespace import RDF
+
 from rdfdf import DFGraphConverter
-from rdflib import Namespace, Literal, Graph, URIRef
-from rdflib.namespace import FOAF, RDF
 
-example_ns = Namespace("http://example.org/")
 
-def name_rule():
+CRM = Namespace("http://www.cidoc-crm.org/cidoc-crm/")
+
+table = [
+    {
+        "id": "rem",
+        "full_title": "Reference corpus Middle High German"
+    }
+]
+
+df = pd.DataFrame(data=table)
+
+
+def full_title_rule():
+    
     graph = Graph()
-    
-    graph.add((__subject__, RDF.type, FOAF.Person)) \
-         .add((__subject__, FOAF.name, Literal(__object__)))
-    
+    subject_uri = URIRef(f"https://{__subject__}.clscor.io/entity/corpus/title/full")
+
+    triples = [
+        (
+            subject_uri,
+            RDF.type,
+            CRM.E41_Appellation
+        ),
+        (
+            subject_uri,
+            CRM.P1_identifies,
+            URIRef(f"https://{__subject__}.clscor.io/entity/corpus")
+        ),
+        # inverse
+        (
+            URIRef(f"https://{__subject__}.clscor.io/entity/corpus"),
+            CRM.P1_is_identified_by,
+            subject_uri
+        ),
+        (
+            subject_uri,
+            CRM.P2_has_type,
+            URIRef("https://core.clscor.io/entity/type/title/full")
+        ),
+        (
+            subject_uri,
+            URIRef("http://www.cidoc-crm.org/cidoc-crm/190_has_symbolic_content"),
+            Literal(__object__)
+        ),
+    ]
+
+    for triple in triples:
+        graph.add(triple)
+
     return graph
 
-def age_rule():
-    graph = Graph()
-
-    graph.add((__subject__, example_ns.age, Literal(__object__)))
-
-    return graph
     
-
-test_column_rules = {
-    "Name": name_rule,
-    "Age": age_rule
+column_rules = {
+    "full_title": full_title_rule
 }
-
-df = pd.read_csv("../test_data/test.csv", sep=";")
 
 dfgraph = DFGraphConverter(
     dataframe=df,
-    subject_column="Name",
-    subject_rule=example_ns,
-    column_rules=test_column_rules,
+    subject_column="id",
+    column_rules=column_rules,
 )
 
 graph = dfgraph.to_graph()
 print(graph.serialize(format="ttl"))
 ```
 
-`example_2.py` is basically the same example without `subject_rule` supplied, in which case `__subject__`s must be handled manually.
+Note that this is rather verbose and could probably be expressed more concisely with Python ontology abstractions like [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/).
 
-Output for `example_1.py` and `example_2.py`:
-
-```ttl
-@prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix ns1: <http://example.org/> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-ns1:Jake a foaf:Person ;
-    ns1:age 42 ;
-    foaf:name "Jake" .
-
-ns1:Jenny a foaf:Person ;
-    ns1:age 12 ;
-    foaf:name "Jenny" .
-
-ns1:Jill a foaf:Person ;
-    ns1:age 28 ;
-    foaf:name "Jill" .
-
-ns1:John a foaf:Person ;
-    ns1:age 32 ;
-    foaf:name "John" .
-```
-
-[todo: more complex examples e.g. with [pydantic-cidoc-crm](https://pypi.org/project/pydantic-cidoc-crm/)]
 
 ### GraphDFConverter
 [todo]
