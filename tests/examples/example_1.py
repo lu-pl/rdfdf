@@ -6,7 +6,6 @@ from rdflib.namespace import FOAF, RDF
 example_ns = Namespace("http://example.org/")
 
 def name_rule():
-    
     graph = Graph()
     
     graph.add((__subject__, RDF.type, FOAF.Person)) \
@@ -15,7 +14,6 @@ def name_rule():
     return graph
 
 def age_rule():
-    
     graph = Graph()
 
     graph.add((__subject__, example_ns.age, Literal(__object__)))
