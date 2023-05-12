@@ -19,14 +19,14 @@ class DFGraphConverter:
     For basic usage examples see https://gitlab.com/lupl/rdfdf.
     """
 
-    _rule_state: dict = dict()
+    store: dict = dict()
     
     def __init__(self,
                  dataframe: pd.DataFrame,
                  *,
                  subject_column: str,
                  subject_rule: Callable[[str], URIRef] | Namespace = None,
-                 column_rules: Mapping[str, Callable[[], Graph]],
+                 column_rules: Mapping[str, Callable[[], Graph | None]],
                  graph: Graph = None):
         
         self._df = dataframe
@@ -66,15 +66,19 @@ class DFGraphConverter:
             for field, rule in self._column_rules.items():
                 _object = row[field]
                 
+                # make bindings meaningful in rule callables
                 rule = anaphoric(
                     __subject__=_subject,
                     __object__=_object,
-                    __state__=self._rule_state
+                    __store__=self.store
                 )(rule)
                 
-                field_graph = rule()
+                field_rule_result = rule()
                 
-                yield field_graph
+                # yield only rdflib.Graph instances
+                if isinstance(field_rule_result, Graph):
+                    yield field_rule_result
+                continue
 
 
     def _merge_to_graph_component(self,
@@ -93,6 +97,8 @@ class DFGraphConverter:
     
     @property
     def graph(self):
+        """Getter for the internal graph component.
+        """
         return self._graph
 
     def to_graph(self) -> Graph:
