@@ -15,7 +15,6 @@ def name_rule():
 
 def age_rule():
     graph = Graph()
-
     graph.add((__subject__, example_ns.age, Literal(__object__)))
 
     return graph

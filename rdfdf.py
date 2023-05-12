@@ -18,6 +18,8 @@ class DFGraphConverter:
     
     For basic usage examples see https://gitlab.com/lupl/rdfdf.
     """
+
+    _rule_state: dict = dict()
     
     def __init__(self,
                  dataframe: pd.DataFrame,
@@ -63,7 +65,12 @@ class DFGraphConverter:
 
             for field, rule in self._column_rules.items():
                 _object = row[field]
-                rule = anaphoric(__subject__=_subject, __object__=_object)(rule)
+                
+                rule = anaphoric(
+                    __subject__=_subject,
+                    __object__=_object,
+                    __state__=self._rule_state
+                )(rule)
                 
                 field_graph = rule()
                 
