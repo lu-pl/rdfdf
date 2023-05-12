@@ -7,6 +7,9 @@ example_ns = Namespace("http://example.org/")
 
 def name_rule():
     graph = Graph()
+
+    ## state sharing test
+    # __store__["test"] = "test value"
     
     graph.add((__subject__, RDF.type, FOAF.Person)) \
          .add((__subject__, FOAF.name, Literal(__object__)))
@@ -16,6 +19,9 @@ def name_rule():
 def age_rule():
     graph = Graph()
     graph.add((__subject__, example_ns.age, Literal(__object__)))
+
+    ## state sharing test
+    # print(f"From age_rule: {__store__}")
 
     return graph
     
