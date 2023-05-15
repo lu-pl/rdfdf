@@ -70,10 +70,8 @@ Desired output:
     crm:190_has_symbolic_content "Reference corpus Middle High German" .
 ```
 
-[./examples/example_3.py](./examples/example_3.py)
+[/examples/example_3.py](./examples/example_3.py):
 ```python
-# ./examples/example_3.py
-
 import pandas as pd
 
 from rdflib import URIRef, Graph, Namespace, Literal
@@ -167,7 +165,7 @@ The following example constructs an RDF literal from multiple table fields:
 "Jake";"12E Street 98";"Amsterdam";"United States of America";"42";"Ballet";"Purple"
 ```
 
-[./examples/example_4.py](./examples/example_4.py)
+[/examples/example_4.py](./examples/example_4.py):
 ```python
 import pandas as pd
 from rdfdf import DFGraphConverter
