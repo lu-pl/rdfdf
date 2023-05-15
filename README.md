@@ -46,7 +46,7 @@ if supplied, `__subject__` in the `column_rules` will be what `subject_rule` com
 
 #### Example:
 
-See [examples](`examples/`).
+See [examples](./examples/).
 
 A slightly more involved example:
 
