@@ -74,7 +74,7 @@ class DFGraphConverter:
                 )(rule)
                 
                 field_rule_result = rule()
-                
+
                 # yield only rdflib.Graph instances
                 if isinstance(field_rule_result, Graph):
                     yield field_rule_result

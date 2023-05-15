@@ -1,3 +1,7 @@
+""" Simple dataframe to graph conversion example; 
+without subject_rule parameter; __subject__ must be handled manually
+"""
+
 import pandas as pd
 from rdfdf import DFGraphConverter
 from rdflib import Namespace, Literal, Graph, URIRef
