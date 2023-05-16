@@ -33,42 +33,40 @@ from rules import (
 
 
 def test_corpus_acronym():
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
     pass
     
 def test_corpus_api():
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
     pass
 
 def test_corpus_license():
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
     pass
 
 def test_corpus_link():
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
     pass
 
 def test_corpus_name():
-    # 1. create actual_graph according to rule with rdfdf.DFGraphConverter
-    # 2. compare to target_graph: assert isomorphic(actual_graph, target_graph)
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
     
-    ### translate to corpus_name properly (still refs to acronym)
-    # actual_graph = rdfdf.DFGraphConverter(
-    #     dataframe=rem_partition,
-    #     subject_column="corpusAcronym",
-    #     column_rules={"full_title": rule_corpus_name},
-    # )
+    _actual_conversion = rdfdf.DFGraphConverter(
+        dataframe=rem_partition,
+        subject_column="corpusAcronym",
+        column_rules={"corpusName": rule_corpus_name},
+    )
 
-    # assert isomorphic(actual_graph, target_corpus_name)
-    pass
+    actual_corpus_name = _actual_conversion.to_graph()
 
-    
-## test
-actual_graph = rdfdf.DFGraphConverter(
-    dataframe=rem_partition,
-    subject_column="corpusAcronym",
-    column_rules={"corpusName": rule_corpus_name},
-)
-
-# print(actual_graph.to_graph().serialize(format="ttl"))
-
-print(isomorphic(
-        actual_graph.to_graph(),
-        target_corpus_name))
-
+    assert isomorphic(actual_corpus_name, target_corpus_name)
