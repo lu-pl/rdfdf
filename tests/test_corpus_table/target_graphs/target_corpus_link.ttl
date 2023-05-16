@@ -1,0 +1,13 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm#> .
+@prefix crmcls: <https://clscor.io/ontologies/CRMcls/> .
+
+<https://core.clscor.io/entity/type/linkType/corpus-website>
+    crm:P2i_is_type_of <https://dracor.org/greek> .
+
+<https://greekdracor.clscor.io/entity/corpus> a crmcls:X1_Corpus ;
+    crm:P1_is_identified_by <https://dracor.org/greek> .
+
+<https://dracor.org/greek> crm:P1i_identifies <https://greekdracor.clscor.io/entity/corpus> ;
+    crm:P2_has_type <https://core.clscor.io/entity/type/linkType/corpus-website> ;
+    rdf:value "Link to the Greek Dracor corpus website" .

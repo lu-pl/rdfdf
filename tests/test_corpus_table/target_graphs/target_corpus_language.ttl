@@ -1,0 +1,14 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm#> .
+
+clscre:corpus/1 a crm:E33_LinguisticObject;
+    crm:P72_HasLanguage [a E65_Language], [a E65_Language].
+
+<https://clscor.io/entity/language> a cidoc:E65_Language .
+
+<https://clscor.io/entity/corpus/#Deutsches-Textarchiv>
+    cidoc:P72_HasLanguage <https://clscor.io/entity/type/language/english>.
+
+<https://clscor.io/entity/type/language/english> a cidoc:E55_Type ;
+    rdfs:label "Englisch"@de, "English"@en ;
+    cidoc:P1_is_identified_by <https://vocabs.acdh.oeaw.ac.at/iso6393/eng>.

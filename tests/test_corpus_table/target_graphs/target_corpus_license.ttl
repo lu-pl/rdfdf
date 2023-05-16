@@ -1,0 +1,17 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<https://rem.clscor.io/entity/corpus> crm:P104_is_subject_to
+    <https://rem.clscor.io/entity/corpus/license1>.
+
+<https://rem.clscor.io/entity/corpus/license1> a crm:E30_Right ;
+    rdfs:label "License of 'rem' [Right]: CC BY-SA 4.0" ;
+    crm:P2_has_type <http://creativecommons.org/licenses/by-sa/4.0/> ;
+    crm:P104i_applies_to <https://rem.clscor.io/entity/corpus> .
+
+<http://creativecommons.org/licenses/by-sa/4.0/> a crm:E55_Type ;
+    rdfs:label "CC BY-SA 4.0" .
+
+<http://creativecommons.org/licenses/nc/1.0/> a crm:E55_Type ;
+    rdfs:label "CC NC 1.0" .

@@ -1,0 +1,13 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm#> .
+
+<https://core.clscor.io/entity/type/full_title> crm:P2i_is_type_of
+    <https://rem.clscor.io/entity/corpus/title/full> .
+
+<https://rem.clscor.io/entity/corpus> crm:P1_is_identified_by
+    <https://rem.clscor.io/entity/corpus/title/full> .
+
+<https://rem.clscor.io/entity/corpus/title/full> a crm:E41_Appellation ;
+    crm:P1i_identifies <https://rem.clscor.io/entity/corpus> ;
+    crm:P2_has_type <https://core.clscor.io/entity/type/full_title> ;
+    rdf:value "Reference corpus Middle High German" .
