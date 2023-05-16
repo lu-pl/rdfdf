@@ -153,7 +153,7 @@ Note that the rule is rather verbose and could probably be expressed more concis
 
 ##### State sharing example
 
-As mentioned, state can be shared between rules via the `__store__` binding and also between `DFGraphConverter` instances via the the `store` class level attribute (which `__store__` actually references).
+As mentioned, state can be shared between rules via the `__store__` binding and also between `DFGraphConverter` instances via the `store` class level attribute (which `__store__` actually references).
 
 The following example constructs an RDF literal from multiple table fields:
 
