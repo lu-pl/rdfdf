@@ -24,8 +24,8 @@ from target_graphs import (
 )
 
 from rules import (
-    # rule_corpus_acronym,
-    # rule_corpus_api,
+    rule_corpus_acronym,
+    rule_corpus_api,
     rule_corpus_license,
     rule_corpus_link,
     _rule_corpus_link_corpus_name,
@@ -33,18 +33,6 @@ from rules import (
     # rule_corpus_language # ?
 )
 
-
-def test_corpus_acronym():
-    """rdfdf conversion test.
-    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
-    """
-    pass
-    
-def test_corpus_api():
-    """rdfdf conversion test.
-    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
-    """
-    pass
 
 def test_corpus_license():
     """rdfdf conversion test.
@@ -100,7 +88,37 @@ def test_corpus_name():
     assert isomorphic(actual_corpus_name, target_corpus_name)
 
 
+def test_corpus_api():
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
+    
+    _actual_conversion = rdfdf.DFGraphConverter(
+        dataframe=greekdracor_partition,
+        subject_column="corpusAcronym",
+        column_rules={
+            "corpusName": _rule_corpus_link_corpus_name,
+            "corpusAPI": rule_corpus_api
+        }
+    )
+    
+    actual_corpus_api = _actual_conversion.to_graph()
 
-##################################################
-#### adhoc tests
+    assert isomorphic(actual_corpus_api, target_corpus_api)
 
+
+def test_corpus_acronym():
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
+    
+    _actual_conversion = rdfdf.DFGraphConverter(
+        dataframe=rem_partition,
+        subject_column="corpusAcronym",
+        column_rules={"corpusAcronym": rule_corpus_acronym}
+    )
+    
+    actual_corpus_acronym = _actual_conversion.to_graph()
+
+    assert isomorphic(actual_corpus_acronym, target_corpus_acronym)
+    

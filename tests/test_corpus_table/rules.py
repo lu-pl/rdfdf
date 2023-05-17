@@ -171,4 +171,97 @@ def rule_corpus_license():
     return graph
     
 
+def rule_corpus_api():
+    
+    subject = __subject__.lower()
+    corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
+    corpus_api_uri = URIRef("https://core.clscor.io/entity/type/linkType/corpus-api")
+    dracor_api_uri = URIRef("https://dracor.org/doc/api")
 
+    triples = [
+        (
+            corpus_api_uri,
+            CRM.P2i_is_type_of,
+            dracor_api_uri
+        ),
+        (
+            corpus_uri,
+            RDF.type,
+            CRMCLS.X1_Corpus
+        ),
+        (
+            corpus_uri,
+            CRM.P1_is_identified_by,
+            dracor_api_uri
+        ),
+        (
+            dracor_api_uri,
+            CRM.P1i_identifies,
+            corpus_uri
+        ),
+        (
+            dracor_api_uri,
+            CRM.P2_has_type,
+            corpus_api_uri
+        ),
+        (
+            dracor_api_uri,
+            RDF.value,
+            Literal(f"Link to the {__store__['corpus_name']} API")
+        )
+    ]
+    
+    graph = Graph()
+
+    for triple in triples:
+        graph.add(triple)
+
+    return graph
+
+
+def rule_corpus_acronym():
+    
+    subject = __subject__.lower()
+    acronym_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/acronym")
+    acronym_type_uri = URIRef("https://core.clscor.io/entity/type/acronym")
+    corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
+
+    triples = [
+        (
+            acronym_type_uri,
+            CRM.P2i_is_type_of,
+            acronym_uri
+        ),
+        (
+            corpus_uri,
+            CRM.P1_is_identified_by,
+            acronym_uri
+        ),
+        (
+            acronym_uri,
+            RDF.type,
+            CRM.E41_Appellation
+        ),
+        (
+            acronym_uri,
+            CRM.P1i_identifies,
+            corpus_uri
+        ),
+        (
+            acronym_uri,
+            CRM.P2_has_type,
+            acronym_type_uri
+        ),
+        (
+            acronym_uri,
+            RDF.value,
+            Literal(__subject__)
+        )
+    ]
+
+    graph = Graph()
+
+    for triple in triples:
+        graph.add(triple)
+
+    return graph
