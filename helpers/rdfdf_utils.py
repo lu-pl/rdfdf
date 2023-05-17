@@ -1,3 +1,4 @@
+import hashlib
 import inspect
 import functools
 import types
@@ -31,3 +32,6 @@ def anaphoric(**anaphors):
     return _decor
 
 
+def genhash(string: str) -> str:
+    _hash = hashlib.md5(string.encode("UTF-8"))
+    return _hash.hexdigest()
