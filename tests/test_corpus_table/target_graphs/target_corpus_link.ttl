@@ -10,4 +10,4 @@
 
 <https://dracor.org/greek> crm:P1i_identifies <https://greekdracor.clscor.io/entity/corpus> ;
     crm:P2_has_type <https://core.clscor.io/entity/type/linkType/corpus-website> ;
-    rdf:value "Link to the Greek Dracor corpus website" .
+    rdf:value "Link to the Greek Drama Corpus website." .
