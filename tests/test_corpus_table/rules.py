@@ -1,8 +1,9 @@
 """rdfdf-rules for testing.
 """
 
-from rdfdf.helpers.rdfdf_utils import genhash
+from helpers.rdfdf_utils import genhash
 
+import langcodes
 from rdflib import URIRef, Literal, Graph
 from rdflib.namespace import Namespace, RDF, RDFS
 
@@ -272,7 +273,7 @@ def rule_corpus_acronym():
 def rule_corpus_language():
 
     subject = __subject__.lower()
-    lang_tag = langcodes.find().to_tag()
+    lang_tag = langcodes.find(__object__).to_tag()
     lang_hash = genhash(__object__)
     lang_uri_name = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}/name")
     lang_uri = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}")
@@ -281,7 +282,56 @@ def rule_corpus_language():
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
 
     triples = [
-        ...
+        (
+            lang_uri_name,
+            RDF.type,
+            CRM.E41_Appellation
+        ),
+        (
+            lang_uri_name,
+            RDFS.label,
+            Literal(f"{__object__} [Appellation of Language]")
+        ),
+        (
+            lang_uri_name,
+            CRM.P1i_identifies,
+            lang_uri
+        ),
+        (
+            lang_uri_name,
+            RDF.value,
+            Literal(f"{__object__}")
+        ),
+        (
+            vocabs_lang_uri,
+            CRM.P1i_identifies,
+            lang_uri
+        ),
+        (
+            lang_uri,
+            RDF.type,
+            CRM.E56_Language
+        ),
+        (
+            lang_uri,
+            RDFS.label,
+            Literal(f"{__object__} [Language]")
+        ),
+        (
+            lang_uri,
+            CRM.P1_is_identified_by,
+            lang_uri_name
+        ),
+        (
+            lang_uri,
+            CRM.P1_is_identified_by,
+            vocabs_lang_uri
+        ),
+        (
+            lang_uri,
+            CRMCLS.Y2i_should_be_language_of_documents,
+            corpus_uri
+        ),
     ]
 
     graph = Graph()

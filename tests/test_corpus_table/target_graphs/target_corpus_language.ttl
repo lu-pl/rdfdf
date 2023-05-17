@@ -1,5 +1,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix crmcls: <https://clscor.io/ontologies/CRMcls/> .
 
 <https://fredracor.clscor.io/entity/language/44389f6a/name> a crm:E41_Appellation ;
     rdfs:label "French [Appellation of Language]" ;
@@ -11,5 +13,5 @@
 <https://fredracor.clscor.io/entity/language/44389f6a> a crm:E56_Language ;
     rdfs:label "French [Language]" ;
     crm:P1_is_identified_by <https://fredracor.clscor.io/entity/language/44389f6a/name>,
-        <https://vocabs.acdh.oeaw.ac.at/iso6391/fr> ;
+    <https://vocabs.acdh.oeaw.ac.at/iso6391/fr> ;
     crmcls:Y2i_should_be_language_of_documents <https://fredracor.clscor.io/entity/corpus> .

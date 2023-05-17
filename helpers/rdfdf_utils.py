@@ -33,5 +33,8 @@ def anaphoric(**anaphors):
 
 
 def genhash(string: str) -> str:
-    _hash = hashlib.md5(string.encode("UTF-8"))
-    return _hash.hexdigest()
+    """Hash generator for language encoding.
+    """
+    # _hash = hashlib.md5(string.encode("UTF-8"))
+    _hash = hashlib.sha1(string.encode("UTF-8"))
+    return _hash.hexdigest()[:8]

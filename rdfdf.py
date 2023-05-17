@@ -14,12 +14,14 @@ _TripleType = tuple[URIRef, URIRef, _TripleObject]
 class DFGraphConverter:
     """Rule-based pandas.DataFrame to rdflib.Graph converter.
 
-    DFGraphConverter iterates over a dataframe and constructs RDF triples by constructing a generator of subgraphs ('field graphs') and then merging all subgraphs with an rdflib.Graph component.
+    DFGraphConverter iterates over a dataframe and constructs RDF triples by constructing a generator of subgraphs ('field graphs');
+    subgraphs are then merged with an rdflib.Graph component.
     
     For basic usage examples see https://gitlab.com/lupl/rdfdf.
     """
 
     store: dict = dict()
+    
     
     def __init__(self,
                  dataframe: pd.DataFrame,
@@ -50,6 +52,7 @@ class DFGraphConverter:
 
         return _sub_uri
 
+    
     def _generate_graphs(self) -> Generator[Graph, None, None]:
         """Loops over the table rows of the provided DataFrame;
         generates and returns a Generator of graph objects for merging.

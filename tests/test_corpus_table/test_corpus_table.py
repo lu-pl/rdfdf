@@ -10,7 +10,8 @@ import helpers.importers
 
 from table_partitions import (
     rem_partition,
-    greekdracor_partition
+    greekdracor_partition,
+    fredracor_partition
 )
 
 # for custom importer see helpers.importers
@@ -20,7 +21,7 @@ from target_graphs import (
     target_corpus_license,
     target_corpus_link,
     target_corpus_name,
-    # target_corpus_language 
+    target_corpus_language 
 )
 
 from rules import (
@@ -30,7 +31,7 @@ from rules import (
     rule_corpus_link,
     _rule_corpus_link_corpus_name,
     rule_corpus_name,
-    # rule_corpus_language 
+    rule_corpus_language 
 )
 
 
@@ -49,8 +50,6 @@ def test_corpus_license():
     actual_corpus_license = _actual_conversion.to_graph()
 
     assert isomorphic(actual_corpus_license, target_corpus_license)
-
-# test_corpus_license()
 
     
 def test_corpus_link():
@@ -122,3 +121,18 @@ def test_corpus_acronym():
 
     assert isomorphic(actual_corpus_acronym, target_corpus_acronym)
     
+def test_corpus_language ():
+    """rdfdf conversion test.
+    Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
+    """
+    
+    _actual_conversion = rdfdf.DFGraphConverter(
+        dataframe=fredracor_partition,
+        subject_column="corpusAcronym",
+        column_rules={"corpusLanguage": rule_corpus_language}
+    )
+
+    actual_corpus_language = _actual_conversion.to_graph()
+    
+    assert isomorphic(actual_corpus_language, target_corpus_language)
+
