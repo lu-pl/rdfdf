@@ -1,14 +1,15 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix crm: <http://www.cidoc-crm.org/cidoc-crm#> .
 
-clscre:corpus/1 a crm:E33_LinguisticObject;
-    crm:P72_HasLanguage [a E65_Language], [a E65_Language].
+<https://fredracor.clscor.io/entity/language/44389f6a/name> a crm:E41_Appellation ;
+    rdfs:label "French [Appellation of Language]" ;
+    crm:P1i_identifies <https://fredracor.clscor.io/entity/language/44389f6a> ;
+    rdf:value "French" .
 
-<https://clscor.io/entity/language> a cidoc:E65_Language .
+<https://vocabs.acdh.oeaw.ac.at/iso6391/fr> crm:P1i_identifies <https://fredracor.clscor.io/entity/language/44389f6a> .
 
-<https://clscor.io/entity/corpus/#Deutsches-Textarchiv>
-    cidoc:P72_HasLanguage <https://clscor.io/entity/type/language/english>.
-
-<https://clscor.io/entity/type/language/english> a cidoc:E55_Type ;
-    rdfs:label "Englisch"@de, "English"@en ;
-    cidoc:P1_is_identified_by <https://vocabs.acdh.oeaw.ac.at/iso6393/eng>.
+<https://fredracor.clscor.io/entity/language/44389f6a> a crm:E56_Language ;
+    rdfs:label "French [Language]" ;
+    crm:P1_is_identified_by <https://fredracor.clscor.io/entity/language/44389f6a/name>,
+        <https://vocabs.acdh.oeaw.ac.at/iso6391/fr> ;
+    crmcls:Y2i_should_be_language_of_documents <https://fredracor.clscor.io/entity/corpus> .

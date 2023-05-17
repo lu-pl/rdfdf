@@ -1,6 +1,8 @@
 """rdfdf-rules for testing.
 """
 
+from rdfdf.helpers.rdfdf_utils import genhash
+
 from rdflib import URIRef, Literal, Graph
 from rdflib.namespace import Namespace, RDF, RDFS
 
@@ -257,6 +259,29 @@ def rule_corpus_acronym():
             RDF.value,
             Literal(__subject__)
         )
+    ]
+
+    graph = Graph()
+
+    for triple in triples:
+        graph.add(triple)
+
+    return graph
+
+
+def rule_corpus_language():
+
+    subject = __subject__.lower()
+    lang_tag = langcodes.find().to_tag()
+    lang_hash = genhash(__object__)
+    lang_uri_name = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}/name")
+    lang_uri = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}")
+    
+    vocabs_lang_uri = URIRef(f"https://vocabs.acdh.oeaw.ac.at/iso6391/{lang_tag}")
+    corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
+
+    triples = [
+        ...
     ]
 
     graph = Graph()

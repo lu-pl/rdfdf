@@ -20,7 +20,7 @@ from target_graphs import (
     target_corpus_license,
     target_corpus_link,
     target_corpus_name,
-    # target_corpus_language # ?
+    # target_corpus_language 
 )
 
 from rules import (
@@ -30,7 +30,7 @@ from rules import (
     rule_corpus_link,
     _rule_corpus_link_corpus_name,
     rule_corpus_name,
-    # rule_corpus_language # ?
+    # rule_corpus_language 
 )
 
 
