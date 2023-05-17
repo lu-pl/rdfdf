@@ -26,7 +26,7 @@ from target_graphs import (
 from rules import (
     # rule_corpus_acronym,
     # rule_corpus_api,
-    # rule_corpus_license,
+    rule_corpus_license,
     rule_corpus_link,
     _rule_corpus_link_corpus_name,
     rule_corpus_name,
@@ -50,8 +50,21 @@ def test_corpus_license():
     """rdfdf conversion test.
     Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
     """
-    pass
+    
+    _actual_conversion = rdfdf.DFGraphConverter(
+        dataframe=rem_partition,
+        subject_column="corpusAcronym",
+        # ! licence vs. license
+        column_rules={"corpusLicence": rule_corpus_license}
+    )
+    
+    actual_corpus_license = _actual_conversion.to_graph()
 
+    assert isomorphic(actual_corpus_license, target_corpus_license)
+
+# test_corpus_license()
+
+    
 def test_corpus_link():
     """rdfdf conversion test.
     Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
@@ -70,9 +83,6 @@ def test_corpus_link():
 
     assert isomorphic(actual_corpus_link, target_corpus_link)
 
-# still AssertionError -> fix rule
-test_corpus_link()
-    
 
 def test_corpus_name():
     """rdfdf conversion test.
@@ -90,4 +100,7 @@ def test_corpus_name():
     assert isomorphic(actual_corpus_name, target_corpus_name)
 
 
+
+##################################################
+#### adhoc tests
 
