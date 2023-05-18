@@ -14,15 +14,17 @@ def rule_corpus_name():
     
     subject = __subject__.lower()
     subject_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/full")
+    full_title_uri = URIRef("https://core.clscor.io/entity/type/full_title")
+    corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
 
     triples = [
         (
-            URIRef("https://core.clscor.io/entity/type/full_title"),
+            full_title_uri,
             CRM.P2i_is_type_of,
             subject_uri
         ),
         (
-            URIRef(f"https://{subject}.clscor.io/entity/corpus"),
+            corpus_uri,
             CRM.P1_is_identified_by,
             subject_uri
         ),
@@ -34,17 +36,17 @@ def rule_corpus_name():
         (
             subject_uri,
             CRM.P1i_identifies,
-            URIRef(f"https://{subject}.clscor.io/entity/corpus")
+            corpus_uri
         ),
         (
             subject_uri,
             CRM.P2_has_type,
-            URIRef("https://core.clscor.io/entity/type/full_title"),
+            full_title_uri
         ),
         (
             subject_uri,
             RDF.value,
-            Literal("Reference corpus Middle High German")
+            Literal(__object__)
         )
     ]
     
@@ -67,32 +69,34 @@ def _rule_corpus_link_corpus_name():
 def rule_corpus_link():
     
     subject = __subject__.lower()
+    corpus_website_uri = URIRef("https://core.clscor.io/entity/type/linkType/corpus-website")
+    corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
     
     triples = [
         (
-            URIRef("https://core.clscor.io/entity/type/linkType/corpus-website"),
+            corpus_website_uri,
             CRM.P2i_is_type_of,
             URIRef(__object__)
         ),
         (
-            URIRef(f"https://{subject}.clscor.io/entity/corpus"),
+            corpus_uri,
             RDF.type,
             CRMCLS.X1_Corpus
         ),
         (
-            URIRef(f"https://{subject}.clscor.io/entity/corpus"),
+            corpus_uri,
             CRM.P1_is_identified_by,
             URIRef(__object__)
         ),
         (
             URIRef(__object__),
             CRM.P1i_identifies,
-            URIRef(f"https://{subject}.clscor.io/entity/corpus"),
+            corpus_uri
         ),
         (
             URIRef(__object__),
             CRM.P2_has_type,
-            URIRef("https://core.clscor.io/entity/type/linkType/corpus-website"),
+            corpus_website_uri
         ),
         (
             URIRef(__object__),

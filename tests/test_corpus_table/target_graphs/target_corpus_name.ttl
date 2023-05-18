@@ -10,4 +10,4 @@
 <https://rem.clscor.io/entity/corpus/title/full> a crm:E41_Appellation ;
     crm:P1i_identifies <https://rem.clscor.io/entity/corpus> ;
     crm:P2_has_type <https://core.clscor.io/entity/type/full_title> ;
-    rdf:value "Reference corpus Middle High German" .
+    rdf:value "Reference corpus Middle High German " .
