@@ -8,4 +8,4 @@ run_tests:
         - pip install --upgrade pip
         - pip install .
     script:
-        - pytest -v
+        - poetry run pytest
