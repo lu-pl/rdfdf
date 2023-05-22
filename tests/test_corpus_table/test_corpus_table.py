@@ -9,6 +9,7 @@ import rdfdf
 import helpers.importers
 
 from table_partitions import (
+    corpus_table,
     rem_partition,
     greekdracor_partition,
     fredracor_partition
