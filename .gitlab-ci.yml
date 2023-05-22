@@ -5,6 +5,7 @@ run_tests:
     stage: test
     image: python:3.10
     before_script:
-        - pip install ., pytest
+        - pip install --upgrade pip
+        - pip install .
     script:
         - pytest -v
