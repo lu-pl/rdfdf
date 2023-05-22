@@ -1,11 +1,10 @@
-stages:
-    - test
-
-run_tests:
-    stage: test
-    image: python:3.10
-    before_script:
-        - pip install --upgrade pip
-        - pip install .
-    script:
-        - poetry run pytest
+language: python
+python:
+- 3.10
+before_install:
+- pip install --upgrade pip
+- pip install poetry
+install:
+- poetry install
+script:
+- poetry run pytest
