@@ -1,9 +1,12 @@
 """corpusTable row partitions for isolated testing
 """
 
+import pathlib
 import pandas as pd
 
-corpus_table = pd.read_excel("./corpusTable_prep.xlsx", engine="openpyxl")
+_corpus_table_path = pathlib.Path(__file__).parent / "corpusTable_prep.xlsx"
+# corpus_table = pd.read_excel("corpusTable_prep.xlsx", engine="openpyxl")
+corpus_table = pd.read_excel(_corpus_table_path, engine="openpyxl")
 
 # partitions
 rem_partition = corpus_table.loc[corpus_table["corpusAcronym"] == "ReM"]
