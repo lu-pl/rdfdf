@@ -6,8 +6,7 @@ run_tests:
     image: python:3.10
     before_script:
         - pip install --upgrade pip
-        - pip install poetry
+        - pip install .
     script:
-        - poetry install
-        - poetry run pytest
+        - pytest
 
