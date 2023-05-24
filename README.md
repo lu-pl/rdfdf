@@ -1,6 +1,6 @@
-[![pipeline status](https://gitlab.com/lupl/rdfdf/badges/dev/pipeline.svg)
 
 # rdfdf
+![pipeline status](https://gitlab.com/lupl/rdfdf/badges/dev/pipeline.svg)
 
 rdfdf - Functionality for rule-based `pandas.DataFrame` - `rdflib.Graph` conversion.
 
