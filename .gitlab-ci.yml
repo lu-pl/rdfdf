@@ -10,6 +10,6 @@ run_tests:
         - pip install pytest
     script:
      - cd "tests/test_corpus_table/"
-     - python -m pytest --cov
+     - python -m pytest
      
     coverage: '/TOTAL.*\s+(\d+\%)/'
