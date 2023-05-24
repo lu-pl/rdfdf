@@ -9,4 +9,5 @@ run_tests:
         - pip install .
         - pip install pytest
     script:
-        - pytest
+     - cd /tests/test_corpus_table/
+     - python -m pytest
