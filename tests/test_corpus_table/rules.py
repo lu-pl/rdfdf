@@ -11,7 +11,7 @@ CRM = Namespace("http://www.cidoc-crm.org/cidoc-crm#")
 CRMCLS = Namespace("https://clscor.io/ontologies/CRMcls/")
 
 def rule_corpus_name():
-    
+
     subject = __subject__.lower()
     subject_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/full")
     full_title_uri = URIRef("https://core.clscor.io/entity/type/full_title")
@@ -49,7 +49,7 @@ def rule_corpus_name():
             Literal(__object__)
         )
     ]
-    
+
     graph = Graph()
 
     for triple in triples:
@@ -65,13 +65,13 @@ def _rule_corpus_link_corpus_name():
 
     __store__["corpus_name"] = __object__
 
-    
+
 def rule_corpus_link():
-    
+
     subject = __subject__.lower()
     corpus_website_uri = URIRef("https://core.clscor.io/entity/type/linkType/corpus-website")
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
-    
+
     triples = [
         (
             corpus_website_uri,
@@ -103,7 +103,7 @@ def rule_corpus_link():
             RDF.value,
             Literal(f"Link to the {__store__['corpus_name']} website.")
         )
-        
+
     ]
 
     graph = Graph()
@@ -115,7 +115,7 @@ def rule_corpus_link():
 
 
 def rule_corpus_license():
-    
+
     subject = __subject__.lower()
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
     license_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/license1")
@@ -176,10 +176,10 @@ def rule_corpus_license():
         graph.add(triple)
 
     return graph
-    
+
 
 def rule_corpus_api():
-    
+
     subject = __subject__.lower()
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
     corpus_api_uri = URIRef("https://core.clscor.io/entity/type/linkType/corpus-api")
@@ -217,7 +217,7 @@ def rule_corpus_api():
             Literal(f"Link to the {__store__['corpus_name']} API")
         )
     ]
-    
+
     graph = Graph()
 
     for triple in triples:
@@ -227,7 +227,7 @@ def rule_corpus_api():
 
 
 def rule_corpus_acronym():
-    
+
     subject = __subject__.lower()
     acronym_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/acronym")
     acronym_type_uri = URIRef("https://core.clscor.io/entity/type/acronym")
@@ -281,7 +281,7 @@ def rule_corpus_language():
     lang_hash = genhash(__object__)
     lang_uri_name = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}/name")
     lang_uri = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}")
-    
+
     vocabs_lang_uri = URIRef(f"https://vocabs.acdh.oeaw.ac.at/iso6391/{lang_tag}")
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
 

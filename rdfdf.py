@@ -112,7 +112,7 @@ class DFGraphConverter:
     def serialize(self, *args, **kwargs):
         """Proxy for rdflib.Graph.serialize.
         """
-        
+
         if not self._graph:
             self.to_graph
 
