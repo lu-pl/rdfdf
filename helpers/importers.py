@@ -14,15 +14,16 @@ from rdflib import Graph
 
 class TurtleImporter:
     """Custom importer; allows to import ttl files as if they were modules.
-    
-    E.g. 'import some_rdf' looks for some_rdf.ttl in the import path, parses it into an rdflib.Graph instance and makes it available in the module namespace.
+
+    E.g. 'import some_rdf' looks for some_rdf.ttl in the import path,
+    parses it into an rdflib.Graph instance and makes it available in the module namespace.
     """
 
     def __init__(self, ttl_path):
 
         self.ttl_path = ttl_path
 
-    
+
     # maybe use spec_from_loader?
     @classmethod
     def find_spec(cls, name, path, target=None):
@@ -31,7 +32,7 @@ class TurtleImporter:
         ttl_file_name = f"{module_name}.ttl"
 
         directories = sys.path if path is None else path
-        
+
         for directory in directories:
             ttl_path = pathlib.Path(directory) / ttl_file_name
 
