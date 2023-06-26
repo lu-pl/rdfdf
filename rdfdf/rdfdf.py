@@ -4,7 +4,7 @@ from typing import Generator
 import pandas as pd
 from rdflib import Graph, Literal, URIRef, Namespace
 
-from helpers.rdfdf_utils import anaphoric
+from rdfdf.helpers.rdfdf_utils import anaphoric
 
 _TripleObject = URIRef | Literal
 _FieldRules = Mapping[str, tuple[URIRef, Callable[[str], _TripleObject]]]
