@@ -1,6 +1,7 @@
 
 # rdfdf
 ![pipeline status](https://gitlab.com/lupl/rdfdf/badges/dev/pipeline.svg)
+[![PyPI version](https://badge.fury.io/py/rdfdf.svg)](https://badge.fury.io/py/rdfdf)
 
 rdfdf - Functionality for rule-based `pandas.DataFrame` - `rdflib.Graph` conversion.
 
