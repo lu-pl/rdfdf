@@ -34,7 +34,8 @@ class DFGraphConverter:
         self._subject_column = subject_column
         self._subject_rule = subject_rule
         self._column_rules = column_rules
-        self._graph = graph or Graph()
+        # bug fix: this allows also empty but namespaced graphs
+        self._graph = Graph() if graph is None else graph
 
     def _apply_subject_rule(self, row: pd.Series) -> URIRef:
         """Applies subject_rule to the subject_column of a pd.Series row;
