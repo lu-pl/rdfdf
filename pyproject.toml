@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "rdfdf"
-version = "0.1.2"
+version = "0.1.3"
 description = ""
 authors = ["Lukas Plank <lupl@tuta.io>"]
 license = "GPL3"
