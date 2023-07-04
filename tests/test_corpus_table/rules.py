@@ -1,7 +1,7 @@
 """rdfdf-rules for testing.
 """
 
-from helpers.rdfdf_utils import genhash
+from rdfdf.helpers.rdfdf_utils import genhash
 
 import langcodes
 from rdflib import URIRef, Literal, Graph

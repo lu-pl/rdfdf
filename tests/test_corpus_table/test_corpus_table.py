@@ -6,9 +6,10 @@ import pytest
 from rdflib import Graph
 from rdflib.compare import isomorphic
 
-import rdfdf
+from rdfdf.rdfdf import DFGraphConverter
 
-import helpers.importers
+# import helpers.importers
+import rdfdf.helpers.importers
 
 from table_partitions import (
     corpus_table,
@@ -46,7 +47,7 @@ def test_corpus_license():
     Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=rem_partition,
         subject_column="corpusAcronym",
         # ! licence vs. license
@@ -63,7 +64,7 @@ def test_corpus_link():
     Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=greekdracor_partition,
         subject_column="corpusAcronym",
         column_rules={
@@ -82,7 +83,7 @@ def test_corpus_name():
     Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=rem_partition,
         subject_column="corpusAcronym",
         column_rules={"corpusName": rule_corpus_name}
@@ -117,7 +118,7 @@ def test_corpus_acronym():
     Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=rem_partition,
         subject_column="corpusAcronym",
         column_rules={"corpusAcronym": rule_corpus_acronym}
@@ -132,7 +133,7 @@ def test_corpus_language ():
     Checks for graph isomorphism between an rdfdf-generated graph and a target graph.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=fredracor_partition,
         subject_column="corpusAcronym",
         column_rules={"corpusLanguage": rule_corpus_language}
@@ -153,7 +154,7 @@ def test_full_corpus_license():
     Just runs a single rule against the full table and checks if the graph is non-empty.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=corpus_table,
         subject_column="corpusAcronym",
         # ! licence vs. license
@@ -171,7 +172,7 @@ def test_full_corpus_link():
     Just runs a single rule against the full table and checks if the graph is non-empty.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=corpus_table,
         subject_column="corpusAcronym",
         column_rules={
@@ -190,7 +191,7 @@ def test_full_corpus_name():
     Just runs a single rule against the full table and checks if the graph is non-empty.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=corpus_table,
         subject_column="corpusAcronym",
         column_rules={"corpusName": rule_corpus_name}
@@ -206,7 +207,7 @@ def test_full_corpus_api():
     Just runs a single rule against the full table and checks if the graph is non-empty.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=corpus_table,
         subject_column="corpusAcronym",
         column_rules={
@@ -225,7 +226,7 @@ def test_full_corpus_acronym():
     Just runs a single rule against the full table and checks if the graph is non-empty.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=corpus_table,
         subject_column="corpusAcronym",
         column_rules={"corpusAcronym": rule_corpus_acronym}
@@ -242,7 +243,7 @@ def test_full_corpus_language ():
     Just runs a single rule against the full table and checks if the graph is non-empty.
     """
 
-    _actual_conversion = rdfdf.DFGraphConverter(
+    _actual_conversion = DFGraphConverter(
         dataframe=corpus_table,
         subject_column="corpusAcronym",
         column_rules={"corpusLanguage": rule_corpus_language}
