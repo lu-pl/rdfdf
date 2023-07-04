@@ -10,7 +10,7 @@ from rdflib.namespace import Namespace, RDF, RDFS
 CRM = Namespace("http://www.cidoc-crm.org/cidoc-crm#")
 CRMCLS = Namespace("https://clscor.io/ontologies/CRMcls/")
 
-def rule_corpus_name():
+def rule_corpus_name(**kwargs):
 
     subject = __subject__.lower()
     subject_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/full")
@@ -59,14 +59,14 @@ def rule_corpus_name():
 
 
 
-def _rule_corpus_link_corpus_name():
+def _rule_corpus_link_corpus_name(**kwargs):
     """corpusName rule for rule_corpus_link
     """
 
     __store__["corpus_name"] = __object__
 
 
-def rule_corpus_link():
+def rule_corpus_link(**kwargs):
 
     subject = __subject__.lower()
     corpus_website_uri = URIRef("https://core.clscor.io/entity/type/linkType/corpus-website")
@@ -114,7 +114,7 @@ def rule_corpus_link():
     return graph
 
 
-def rule_corpus_license():
+def rule_corpus_license(**kwargs):
 
     subject = __subject__.lower()
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
@@ -178,7 +178,7 @@ def rule_corpus_license():
     return graph
 
 
-def rule_corpus_api():
+def rule_corpus_api(**kwargs):
 
     subject = __subject__.lower()
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
@@ -226,7 +226,7 @@ def rule_corpus_api():
     return graph
 
 
-def rule_corpus_acronym():
+def rule_corpus_acronym(**kwargs):
 
     subject = __subject__.lower()
     acronym_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/acronym")
@@ -274,7 +274,7 @@ def rule_corpus_acronym():
     return graph
 
 
-def rule_corpus_language():
+def rule_corpus_language(**kwargs):
 
     subject = __subject__.lower()
     lang_tag = langcodes.find(__object__).to_tag()

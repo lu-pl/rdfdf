@@ -4,8 +4,6 @@ from typing import Generator
 import pandas as pd
 from rdflib import Graph, Literal, URIRef, Namespace
 
-from rdfdf.helpers.rdfdf_utils import anaphoric
-
 _TripleObject = URIRef | Literal
 _FieldRules = Mapping[str, tuple[URIRef, Callable[[str], _TripleObject]]]
 _TripleType = tuple[URIRef, URIRef, _TripleObject]
@@ -67,14 +65,20 @@ class DFGraphConverter:
             for field, rule in self._column_rules.items():
                 _object = row[field]
 
+                ## old
                 # make bindings meaningful in rule callables
-                rule = anaphoric(
+                # rule = anaphoric(
+                #     __subject__=_subject,
+                #     __object__=_object,
+                #     __store__=self.store
+                # )(rule)
+
+                ## new
+                field_rule_result = rule(
                     __subject__=_subject,
                     __object__=_object,
                     __store__=self.store
-                )(rule)
-
-                field_rule_result = rule()
+                )
 
                 # yield only rdflib.Graph instances
                 if isinstance(field_rule_result, Graph):
