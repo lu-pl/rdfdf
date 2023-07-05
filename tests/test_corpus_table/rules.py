@@ -10,9 +10,10 @@ from rdflib.namespace import Namespace, RDF, RDFS
 CRM = Namespace("http://www.cidoc-crm.org/cidoc-crm#")
 CRMCLS = Namespace("https://clscor.io/ontologies/CRMcls/")
 
-def rule_corpus_name(**kwargs):
 
-    subject = __subject__.lower()
+def rule_corpus_name(subject_field, object_field, store):
+    """Rule."""
+    subject = subject_field.lower()
     subject_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/full")
     full_title_uri = URIRef("https://core.clscor.io/entity/type/full_title")
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
@@ -46,7 +47,7 @@ def rule_corpus_name(**kwargs):
         (
             subject_uri,
             RDF.value,
-            Literal(__object__)
+            Literal(object_field)
         )
     ]
 
@@ -59,16 +60,16 @@ def rule_corpus_name(**kwargs):
 
 
 
-def _rule_corpus_link_corpus_name(**kwargs):
+def _rule_corpus_link_corpus_name(subject_field, object_field, store):
     """corpusName rule for rule_corpus_link
     """
 
-    __store__["corpus_name"] = __object__
+    store["corpus_name"] = object_field
 
 
-def rule_corpus_link(**kwargs):
+def rule_corpus_link(subject_field, object_field, store):
 
-    subject = __subject__.lower()
+    subject = subject_field.lower()
     corpus_website_uri = URIRef("https://core.clscor.io/entity/type/linkType/corpus-website")
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
 
@@ -76,7 +77,7 @@ def rule_corpus_link(**kwargs):
         (
             corpus_website_uri,
             CRM.P2i_is_type_of,
-            URIRef(__object__)
+            URIRef(object_field)
         ),
         (
             corpus_uri,
@@ -86,22 +87,22 @@ def rule_corpus_link(**kwargs):
         (
             corpus_uri,
             CRM.P1_is_identified_by,
-            URIRef(__object__)
+            URIRef(object_field)
         ),
         (
-            URIRef(__object__),
+            URIRef(object_field),
             CRM.P1i_identifies,
             corpus_uri
         ),
         (
-            URIRef(__object__),
+            URIRef(object_field),
             CRM.P2_has_type,
             corpus_website_uri
         ),
         (
-            URIRef(__object__),
+            URIRef(object_field),
             RDF.value,
-            Literal(f"Link to the {__store__['corpus_name']} website.")
+            Literal(f"Link to the {store['corpus_name']} website.")
         )
 
     ]
@@ -114,9 +115,9 @@ def rule_corpus_link(**kwargs):
     return graph
 
 
-def rule_corpus_license(**kwargs):
+def rule_corpus_license(subject_field, object_field, store):
 
-    subject = __subject__.lower()
+    subject = subject_field.lower()
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
     license_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/license1")
     cc4_license_uri = URIRef("http://creativecommons.org/licenses/by-sa/4.0/")
@@ -178,9 +179,9 @@ def rule_corpus_license(**kwargs):
     return graph
 
 
-def rule_corpus_api(**kwargs):
+def rule_corpus_api(subject_field, object_field, store):
 
-    subject = __subject__.lower()
+    subject = subject_field.lower()
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
     corpus_api_uri = URIRef("https://core.clscor.io/entity/type/linkType/corpus-api")
     dracor_api_uri = URIRef("https://dracor.org/doc/api")
@@ -214,7 +215,7 @@ def rule_corpus_api(**kwargs):
         (
             dracor_api_uri,
             RDF.value,
-            Literal(f"Link to the {__store__['corpus_name']} API")
+            Literal(f"Link to the {store['corpus_name']} API")
         )
     ]
 
@@ -226,9 +227,9 @@ def rule_corpus_api(**kwargs):
     return graph
 
 
-def rule_corpus_acronym(**kwargs):
+def rule_corpus_acronym(subject_field, object_field, store):
 
-    subject = __subject__.lower()
+    subject = subject_field.lower()
     acronym_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus/title/acronym")
     acronym_type_uri = URIRef("https://core.clscor.io/entity/type/acronym")
     corpus_uri = URIRef(f"https://{subject}.clscor.io/entity/corpus")
@@ -262,7 +263,7 @@ def rule_corpus_acronym(**kwargs):
         (
             acronym_uri,
             RDF.value,
-            Literal(__subject__)
+            Literal(subject_field)
         )
     ]
 
@@ -274,11 +275,11 @@ def rule_corpus_acronym(**kwargs):
     return graph
 
 
-def rule_corpus_language(**kwargs):
+def rule_corpus_language(subject_field, object_field, store):
 
-    subject = __subject__.lower()
-    lang_tag = langcodes.find(__object__).to_tag()
-    lang_hash = genhash(__object__)
+    subject = subject_field.lower()
+    lang_tag = langcodes.find(object_field).to_tag()
+    lang_hash = genhash(object_field)
     lang_uri_name = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}/name")
     lang_uri = URIRef(f"https://{subject}.clscor.io/entity/language/{lang_hash}")
 
@@ -294,7 +295,7 @@ def rule_corpus_language(**kwargs):
         (
             lang_uri_name,
             RDFS.label,
-            Literal(f"{__object__} [Appellation of Language]")
+            Literal(f"{object_field} [Appellation of Language]")
         ),
         (
             lang_uri_name,
@@ -304,7 +305,7 @@ def rule_corpus_language(**kwargs):
         (
             lang_uri_name,
             RDF.value,
-            Literal(f"{__object__}")
+            Literal(f"{object_field}")
         ),
         (
             vocabs_lang_uri,
@@ -319,7 +320,7 @@ def rule_corpus_language(**kwargs):
         (
             lang_uri,
             RDFS.label,
-            Literal(f"{__object__} [Language]")
+            Literal(f"{object_field} [Language]")
         ),
         (
             lang_uri,
