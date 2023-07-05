@@ -3,11 +3,12 @@ import inspect
 import functools
 import types
 
+## todo: try to fix closure problem + move to LispKit
 def anaphoric(**anaphors):
     """Decorator for making bindings defined in **anaphors available in a decorated function.
-    
+
     Example:
-    
+
     @anaphoric(x=1, y=2, z=3)
     def foo():
         return x, y, z
@@ -33,8 +34,7 @@ def anaphoric(**anaphors):
 
 
 def genhash(string: str) -> str:
-    """Hash generator for language encoding.
-    """
+    """Hash generator for language encoding."""
     # _hash = hashlib.md5(string.encode("UTF-8"))
     _hash = hashlib.sha1(string.encode("UTF-8"))
     return _hash.hexdigest()[:8]
