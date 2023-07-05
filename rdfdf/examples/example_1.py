@@ -1,5 +1,4 @@
-""" Simple dataframe to graph conversion example; subject_rule parameter upplied
-"""
+""" Simple dataframe to graph conversion example; subject_rule parameter upplied"""
 
 import pandas as pd
 from rdfdf import DFGraphConverter
@@ -10,10 +9,10 @@ example_ns = Namespace("http://example.org/")
 
 def name_rule():
     graph = Graph()
-    
+
     graph.add((__subject__, RDF.type, FOAF.Person)) \
          .add((__subject__, FOAF.name, Literal(__object__)))
-    
+
     return graph
 
 def age_rule():
@@ -21,7 +20,7 @@ def age_rule():
     graph.add((__subject__, example_ns.age, Literal(__object__)))
 
     return graph
-    
+
 
 test_column_rules = {
     "Name": name_rule,
