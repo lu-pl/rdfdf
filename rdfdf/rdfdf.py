@@ -75,9 +75,9 @@ class DFGraphConverter:
 
                 ## new
                 field_rule_result = rule(
-                    __subject__=_subject,
-                    __object__=_object,
-                    __store__=self.store
+                    _subject,
+                    _object,
+                    self.store
                 )
 
                 # yield only rdflib.Graph instances
