@@ -8,7 +8,7 @@ from typing import Generator, Optional
 import pandas as pd
 from rdflib import Graph, URIRef, Namespace
 
-from rdfdf_types import _RulesMapping
+from rdfdf.rdfdf_types import _RulesMapping
 
 
 class DFGraphConverter:
