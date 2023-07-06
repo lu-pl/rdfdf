@@ -58,7 +58,105 @@ if supplied, `subject_field` in the `column_rules` will be what `subject_rule` c
 ## Examples:
 
 ### Simple example
-[todo]
+
+```python
+import pandas as pd
+
+from rdfdf.rdfdf import DFGraphConverter
+
+from rdflib import URIRef, Graph, Namespace, Literal
+from rdflib.namespace import RDF
+
+
+# namespace definitions
+CRM = Namespace("http://www.cidoc-crm.org/cidoc-crm/")
+
+# bind namespace to graph component
+nsgraph = Graph()
+nsgraph.bind("crm", CRM)
+
+# create a simple dataframe
+table = [
+    {
+        "id": "rem",
+        "full_title": "Reference corpus Middle High German"
+    }
+]
+
+df = pd.DataFrame(data=table)
+
+
+# rules
+def full_title_rule(subject_field, object_field, store):
+
+    title_uri = URIRef(f"https://{subject_field}.clscor.io/entity/corpus/title/full")
+    corpus_uri = URIRef(f"https://{subject_field}.clscor.io/entity/corpus")
+
+    triples = [
+        (
+            title_uri,
+            RDF.type,
+            CRM.E41_Appellation
+        ),
+        (
+            title_uri,
+            CRM.P1_identifies,
+            corpus_uri
+        ),
+        # inverse
+        (
+            corpus_uri,
+            CRM.P1_is_identified_by,
+            title_uri
+        ),
+        (
+            title_uri,
+            CRM.P2_has_type,
+            URIRef("https://core.clscor.io/entity/type/title/full")
+        ),
+        (
+            title_uri,
+            CRM['190_has_symbolic_content'],
+            Literal(object_field)
+        ),
+    ]
+
+    graph = Graph()
+
+    for triple in triples:
+        graph.add(triple)
+
+    return graph
+
+
+column_rules = {
+    "full_title": full_title_rule
+}
+
+
+dfgraph = DFGraphConverter(
+    dataframe=df,
+    subject_column="id",
+    column_rules=column_rules,
+    graph=nsgraph
+)
+
+graph = dfgraph.to_graph()
+print(graph.serialize(format="ttl"))
+```
+
+Output:
+
+```ttl
+@prefix crm: <http://www.cidoc-crm.org/cidoc-crm/> .
+
+<https://rem.clscor.io/entity/corpus> crm:P1_is_identified_by <https://rem.clscor.io/entity/corpus/title/full> .
+
+<https://rem.clscor.io/entity/corpus/title/full> a crm:E41_Appellation ;
+    crm:190_has_symbolic_content "Reference corpus Middle High German" ;
+    crm:P1_identifies <https://rem.clscor.io/entity/corpus> ;
+    crm:P2_has_type <https://core.clscor.io/entity/type/title/full> .
+```
 
 ### More involved example
 For a more involved application of `rdfdf` (including extensive state sharing between rules) see the [CorTab](https://github.com/lu-pl/cortab) script.
